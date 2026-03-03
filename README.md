@@ -13,7 +13,7 @@ We want to see your understanding of:
 - **Clean Architecture** and separation of concerns
 - **SOLID principles**
 - **MVVM pattern**
-- **Dependency Injection** with Hilt
+- **Dependency Injection** (Hilt preferred, but Koin is acceptable if you haven't used Hilt recently)
 - Modern Android development with **Jetpack Compose**
 
 ## Technical Stack
@@ -22,7 +22,7 @@ All dependencies are already configured - you can focus on development:
 
 - Kotlin 2.0.21
 - Jetpack Compose + Material 3
-- Hilt (Dependency Injection)
+- Hilt or Koin (Dependency Injection)
 - Retrofit + OkHttp
 - Kotlinx Serialization
 - Kotlin Coroutines
