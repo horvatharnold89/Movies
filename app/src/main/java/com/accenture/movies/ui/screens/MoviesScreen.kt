@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.accenture.movies.domain.model.Movie
-import com.accenture.movies.ui.viewmodule.MoviesViewModule
+import com.accenture.movies.ui.viewmodels.MoviesViewModule
 
 @Composable
 fun MoviesScreen(viewModel: MoviesViewModule = hiltViewModel(), innerPadding: PaddingValues) {

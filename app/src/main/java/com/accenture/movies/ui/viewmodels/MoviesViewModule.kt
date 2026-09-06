@@ -1,9 +1,10 @@
-package com.accenture.movies.ui.viewmodule
+package com.accenture.movies.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.accenture.movies.domain.Resource
 import com.accenture.movies.domain.model.Movie
-import com.accenture.movies.domain.usecase.GetMoviesUseCase
+import com.accenture.movies.domain.usecases.GetMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -34,8 +35,11 @@ val uiState = _searchQuery
         flow {
             emit(UiState.Loading)
             try {
-                val results = getMoviesUseCase(query)
-                emit(UiState.Success(results))
+                when (val results = getMoviesUseCase(query)){
+                    is Resource.Error -> emit(UiState.Error(results.message ?: "Unknown"))
+                    Resource.Loading -> emit(UiState.Loading)
+                    is Resource.Success -> emit(UiState.Success(results.data))
+                }
             } catch (e: Exception) {
                 emit(UiState.Error(e.message ?: "Unknown"))
             }

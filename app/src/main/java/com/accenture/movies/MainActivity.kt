@@ -11,19 +11,39 @@ import com.accenture.movies.ui.screens.MoviesScreen
 import com.accenture.movies.ui.theme.MoviesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+//@AndroidEntryPoint
+//class MainActivity : ComponentActivity() {
+//
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        enableEdgeToEdge()
+//        setContent {
+//            MoviesTheme {
+//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                    MoviesScreen(innerPadding = innerPadding)
+//                }
+//            }
+//        }
+//    }
+//}
 
+
+
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
+import com.accenture.movies.ui.screens.MoviesFragment
+
+@AndroidEntryPoint
+class MainActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            MoviesTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MoviesScreen(innerPadding = innerPadding)
-                }
-            }
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(android.R.id.content, MoviesFragment())
+                .commit()
         }
     }
 }
