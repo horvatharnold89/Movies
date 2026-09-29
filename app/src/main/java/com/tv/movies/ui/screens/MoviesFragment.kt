@@ -15,7 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tv.movies.R
 import com.tv.movies.ui.adapter.MoviesAdapter
@@ -41,7 +41,7 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
         adapter = MoviesAdapter()
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), SPAN_COUNT)
         recyclerView.adapter = adapter
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -73,6 +73,13 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     when (state) {
+                        is MoviesViewModule.UiState.Idle -> {
+                            stateTextView.visibility = View.VISIBLE
+                            recyclerView.visibility = View.GONE
+                            stateTextView.text = "Type at least ${MoviesViewModule.MIN_QUERY_LENGTH} characters to search"
+                            adapter.submitList(emptyList())
+                        }
+
                         is MoviesViewModule.UiState.Loading -> {
                             stateTextView.visibility = View.VISIBLE
                             recyclerView.visibility = View.GONE
@@ -122,5 +129,9 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
         focusedView.clearFocus()
         WindowCompat.getInsetsController(requireActivity().window, focusedView)
             .hide(WindowInsetsCompat.Type.ime())
+    }
+
+    private companion object {
+        const val SPAN_COUNT = 2
     }
 }
