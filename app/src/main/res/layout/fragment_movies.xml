@@ -10,7 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Search items..."
-        android:singleLine="true" />
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:maxLines="1" />
 
     <TextView
         android:id="@+id/stateTextView"

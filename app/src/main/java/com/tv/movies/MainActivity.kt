@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 //}
 
 
+import androidx.activity.enableEdgeToEdge
 import androidx.fragment.app.FragmentActivity
 import com.tv.movies.ui.screens.MoviesFragment
 
@@ -28,6 +29,7 @@ import com.tv.movies.ui.screens.MoviesFragment
 class MainActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
