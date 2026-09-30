@@ -3,8 +3,8 @@ package com.tv.movies.ui
 import com.tv.movies.domain.Resource
 import com.tv.movies.domain.model.Movie
 import com.tv.movies.domain.usecases.GetMoviesUseCase
-import com.tv.movies.ui.viewmodels.MoviesViewModule
-import com.tv.movies.ui.viewmodels.MoviesViewModule.Companion.SEARCH_DEBOUNCE_MS
+import com.tv.movies.ui.viewmodels.MoviesViewModel
+import com.tv.movies.ui.viewmodels.MoviesViewModel.Companion.SEARCH_DEBOUNCE_MS
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -27,7 +27,7 @@ import org.junit.Test
 class MoviesViewModelTest {
 
     private val getMoviesUseCase: GetMoviesUseCase = mockk()
-    private lateinit var viewModel: MoviesViewModule
+    private lateinit var viewModel: MoviesViewModel
 
     private val movies = listOf(
         Movie(title = "Batman", year = "1989", poster = "poster_url", type = "movie", imdbID = "1")
@@ -38,7 +38,7 @@ class MoviesViewModelTest {
         // viewModelScope runs on Dispatchers.Main, so replace it with a virtual-time dispatcher
         Dispatchers.setMain(StandardTestDispatcher())
         coEvery { getMoviesUseCase(any()) } returns Resource.Success(movies)
-        viewModel = MoviesViewModule(getMoviesUseCase)
+        viewModel = MoviesViewModel(getMoviesUseCase)
     }
 
     @After
@@ -62,7 +62,7 @@ class MoviesViewModelTest {
         advanceTimeBy(1)
         runCurrent()
         coVerify(exactly = 1) { getMoviesUseCase("Matrix") }
-        assertEquals(MoviesViewModule.UiState.Success(movies), viewModel.uiState.value)
+        assertEquals(MoviesViewModel.UiState.Success(movies), viewModel.uiState.value)
     }
 
     @Test
@@ -73,7 +73,7 @@ class MoviesViewModelTest {
         advanceTimeBy(SEARCH_DEBOUNCE_MS * 2)
         runCurrent()
 
-        assertEquals(MoviesViewModule.UiState.Idle, viewModel.uiState.value)
+        assertEquals(MoviesViewModel.UiState.Idle, viewModel.uiState.value)
         coVerify(exactly = 0) { getMoviesUseCase(any()) }
     }
 
@@ -85,7 +85,7 @@ class MoviesViewModelTest {
         advanceTimeBy(SEARCH_DEBOUNCE_MS * 2)
         runCurrent()
 
-        assertEquals(MoviesViewModule.UiState.Idle, viewModel.uiState.value)
+        assertEquals(MoviesViewModel.UiState.Idle, viewModel.uiState.value)
         coVerify(exactly = 0) { getMoviesUseCase(any()) }
     }
 
@@ -105,7 +105,7 @@ class MoviesViewModelTest {
         coVerify(exactly = 0) { getMoviesUseCase("Bat") }
         coVerify(exactly = 0) { getMoviesUseCase("Batm") }
         coVerify(exactly = 0) { getMoviesUseCase("Matrix") }
-        assertEquals(MoviesViewModule.UiState.Success(movies), viewModel.uiState.value)
+        assertEquals(MoviesViewModel.UiState.Success(movies), viewModel.uiState.value)
     }
 
     @Test

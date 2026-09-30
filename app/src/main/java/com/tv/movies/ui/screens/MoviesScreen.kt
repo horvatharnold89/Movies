@@ -34,10 +34,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.tv.movies.R
 import com.tv.movies.domain.model.Movie
-import com.tv.movies.ui.viewmodels.MoviesViewModule
+import com.tv.movies.ui.viewmodels.MoviesViewModel
 
 @Composable
-fun MoviesScreen(viewModel: MoviesViewModule = hiltViewModel(), innerPadding: PaddingValues) {
+fun MoviesScreen(viewModel: MoviesViewModel = hiltViewModel(), innerPadding: PaddingValues) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val query by viewModel.searchQuery.collectAsStateWithLifecycle()
     Column(modifier = Modifier
@@ -53,11 +53,11 @@ fun MoviesScreen(viewModel: MoviesViewModule = hiltViewModel(), innerPadding: Pa
         )
 
         when (val state = uiState) {
-            is MoviesViewModule.UiState.Idle ->
-                SetLabel("Type at least ${MoviesViewModule.MIN_QUERY_LENGTH} characters to search")
-            is MoviesViewModule.UiState.Error -> SetLabel(state.message)
-            is MoviesViewModule.UiState.Loading -> SetLabel("Loading...")
-            is MoviesViewModule.UiState.Success -> {
+            is MoviesViewModel.UiState.Idle ->
+                SetLabel("Type at least ${MoviesViewModel.MIN_QUERY_LENGTH} characters to search")
+            is MoviesViewModel.UiState.Error -> SetLabel(state.message)
+            is MoviesViewModel.UiState.Loading -> SetLabel("Loading...")
+            is MoviesViewModel.UiState.Success -> {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     modifier = Modifier.fillMaxSize(),

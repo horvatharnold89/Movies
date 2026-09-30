@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class MoviesViewModule @Inject constructor(private val getMoviesUseCase: GetMoviesUseCase) :
+class MoviesViewModel @Inject constructor(private val getMoviesUseCase: GetMoviesUseCase) :
     ViewModel() {
 
 

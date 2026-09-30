@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tv.movies.R
 import com.tv.movies.ui.adapter.MoviesAdapter
-import com.tv.movies.ui.viewmodels.MoviesViewModule
+import com.tv.movies.ui.viewmodels.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.max
@@ -27,7 +27,7 @@ import kotlin.math.max
 @AndroidEntryPoint
 class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
-    private val viewModel: MoviesViewModule by viewModels()
+    private val viewModel: MoviesViewModel by viewModels()
     private lateinit var adapter: MoviesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,26 +73,26 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     when (state) {
-                        is MoviesViewModule.UiState.Idle -> {
+                        is MoviesViewModel.UiState.Idle -> {
                             stateTextView.visibility = View.VISIBLE
                             recyclerView.visibility = View.GONE
-                            stateTextView.text = "Type at least ${MoviesViewModule.MIN_QUERY_LENGTH} characters to search"
+                            stateTextView.text = "Type at least ${MoviesViewModel.MIN_QUERY_LENGTH} characters to search"
                             adapter.submitList(emptyList())
                         }
 
-                        is MoviesViewModule.UiState.Loading -> {
+                        is MoviesViewModel.UiState.Loading -> {
                             stateTextView.visibility = View.VISIBLE
                             recyclerView.visibility = View.GONE
                             stateTextView.text = "Loading..."
                         }
 
-                        is MoviesViewModule.UiState.Error -> {
+                        is MoviesViewModel.UiState.Error -> {
                             stateTextView.visibility = View.VISIBLE
                             recyclerView.visibility = View.GONE
                             stateTextView.text = state.message
                         }
 
-                        is MoviesViewModule.UiState.Success -> {
+                        is MoviesViewModel.UiState.Success -> {
                             stateTextView.visibility = View.GONE
                             recyclerView.visibility = View.VISIBLE
                             adapter.submitList(state.movies)
