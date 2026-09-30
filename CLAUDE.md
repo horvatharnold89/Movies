@@ -43,3 +43,6 @@ The live code is under `app/src/main/java/com/tv/movies/` (matches `namespace`/`
 - `app/src/test/.../domain/GetMoviesUseCaseTest.kt` — MockK + `runTest` pattern for domain tests.
 - `app/src/test/.../MoviesFragmentTest.kt` — Robolectric test that `MainActivity` hosts `MoviesFragment` (`isIncludeAndroidResources = true` is set for this).
 - `app/src/androidTest/.../MoviesFragmentTest.kt` — Espresso checks on view IDs `searchEditText`, `stateTextView`, `moviesRecyclerView`. These will break if the Fragment UI is replaced with Compose.
+
+## Maintenance
+When a change makes anything in this file inaccurate (renamed classes, moved packages, new commands), update this file in the same change.
